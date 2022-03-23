@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 
 import com.baggio.projeto.masterfinanceapi.entities.Banco;
+import com.baggio.projeto.masterfinanceapi.service.validation.BancoValid;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@BancoValid
 @Getter
 @Setter
 public class BancoDTO implements Serializable {

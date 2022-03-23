@@ -13,4 +13,12 @@ public interface BancoRepository extends JpaRepository<Banco, Long> {
 			+ "WHERE LOWER(b.nome) LIKE LOWER(CONCAT('%', :nome, '%'))")
 	Page<Banco> findByNome(Pageable pageable, String nome);
 	
+	@Query("SELECT b FROM Banco b "
+			+ "WHERE b.nome = :nome ")
+	Banco findByNome(String nome);
+
+	@Query("SELECT b FROM Banco b "
+			+ "WHERE b.numero = :numero ")
+	Banco findByNumero(String numero);
+	
 }
