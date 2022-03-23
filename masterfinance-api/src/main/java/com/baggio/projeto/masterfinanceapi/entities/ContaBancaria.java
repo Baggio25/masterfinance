@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -28,16 +30,21 @@ public class ContaBancaria extends Conta{
 	@Column(name = "digito_agencia")
 	private String digitoAgencia;
 	
+	@ManyToOne
+	@JoinColumn(name = "banco_id")
+	private Banco banco;
+	
 	public ContaBancaria() {
 	}
 
 	public ContaBancaria(Long id, String descricao, BigDecimal saldo, String numero, String digito, String agencia,
-			String digitoAgencia) {
+			String digitoAgencia, Banco banco) {
 		super(id, descricao, saldo);
 		this.numero = numero;
 		this.digito = digito;
 		this.agencia = agencia;
 		this.digitoAgencia = digitoAgencia;
+		this.banco = banco;
 	}
 
 	

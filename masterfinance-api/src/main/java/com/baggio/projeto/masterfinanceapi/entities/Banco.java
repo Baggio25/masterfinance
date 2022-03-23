@@ -29,5 +29,5 @@ public class Banco implements Serializable{
 	private String nome;
 	
 	private String numero;
-	
+
 }
