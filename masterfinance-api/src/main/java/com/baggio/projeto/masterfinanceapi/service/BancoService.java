@@ -77,7 +77,7 @@ public class BancoService implements GenericService<BancoDTO, Long> {
 
 			return new BancoDTO(banco);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
 

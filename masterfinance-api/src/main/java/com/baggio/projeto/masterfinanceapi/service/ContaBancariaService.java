@@ -2,7 +2,6 @@ package com.baggio.projeto.masterfinanceapi.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -15,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baggio.projeto.masterfinanceapi.dto.ContaBancariaDTO;
+import com.baggio.projeto.masterfinanceapi.entities.Banco;
 import com.baggio.projeto.masterfinanceapi.entities.ContaBancaria;
+import com.baggio.projeto.masterfinanceapi.repository.BancoRepository;
 import com.baggio.projeto.masterfinanceapi.repository.ContaBancariaRepository;
 import com.baggio.projeto.masterfinanceapi.service.exceptions.DatabaseException;
 import com.baggio.projeto.masterfinanceapi.service.exceptions.ResourceNotFoundException;
@@ -25,25 +26,20 @@ import com.baggio.projeto.masterfinanceapi.service.generic.GenericService;
 public class ContaBancariaService implements GenericService<ContaBancariaDTO, Long> {
 
 	@Autowired
-	private ContaBancariaRepository contaBancariaRepository;
-
-	@Transactional(readOnly = true)
-	@Override
-	public List<ContaBancariaDTO> findAll() {
-		List<ContaBancaria> list = contaBancariaRepository.findAll();
-		return list.stream().map(contaBancaria -> new ContaBancariaDTO(contaBancaria))
-				.collect(Collectors.toList());
-	}
+	private ContaBancariaRepository contaBancariaRepository;	
+	
+	@Autowired
+	private BancoRepository bancoRepository;
 
 	@Transactional(readOnly = true)
 	@Override
 	public Page<ContaBancariaDTO> findAllPaged(Pageable pageable) {
-		Page<ContaBancaria> page = contaBancariaRepository.findAll(pageable);
+		Page<ContaBancaria> page = contaBancariaRepository.findAllPaged(pageable);
 		return page.map(contaBancaria -> new ContaBancariaDTO(contaBancaria));
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ContaBancariaDTO> findByNome(Pageable pageable, String descricao) {
+	public Page<ContaBancariaDTO> findByDescricao(Pageable pageable, String descricao) {
 		Page<ContaBancaria> page = contaBancariaRepository.findByDescricao(pageable, descricao);
 		return page.map(contaBancaria -> new ContaBancariaDTO(contaBancaria));
 	}
@@ -62,6 +58,7 @@ public class ContaBancariaService implements GenericService<ContaBancariaDTO, Lo
 		ContaBancaria contaBancaria = new ContaBancaria();
 		dtoToEntity(dto, contaBancaria);
 
+		contaBancaria.setBancaria(true);
 		contaBancaria = contaBancariaRepository.save(contaBancaria);
 
 		return new ContaBancariaDTO(contaBancaria);
@@ -73,11 +70,14 @@ public class ContaBancariaService implements GenericService<ContaBancariaDTO, Lo
 			ContaBancaria contaBancaria = contaBancariaRepository.getById(id);
 			dtoToEntity(dto, contaBancaria);
 
+			contaBancaria.setBancaria(true);
 			contaBancaria = contaBancariaRepository.save(contaBancaria);
 
 			return new ContaBancariaDTO(contaBancaria);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("BancoId not found " + dto.getBancoId());
 		}
 
 	}
@@ -95,12 +95,20 @@ public class ContaBancariaService implements GenericService<ContaBancariaDTO, Lo
 	}
 
 	private void dtoToEntity(ContaBancariaDTO contaBancariaDTO, ContaBancaria contaBancaria) {
+		Banco banco = bancoRepository.getById(contaBancariaDTO.getBancoId());
+		
 		contaBancaria.setDescricao(contaBancariaDTO.getDescricao());
 		contaBancaria.setSaldo(contaBancariaDTO.getSaldo());
 		contaBancaria.setNumero(contaBancariaDTO.getNumero());
 		contaBancaria.setDigito(contaBancariaDTO.getDigito());
 		contaBancaria.setAgencia(contaBancariaDTO.getAgencia());
 		contaBancaria.setDigitoAgencia(contaBancariaDTO.getDigitoAgencia());		
+		contaBancaria.setBanco(banco);
 	}
 
+	@Override
+	public List<ContaBancariaDTO> findAll() {
+		return null;
+	}
+	
 }

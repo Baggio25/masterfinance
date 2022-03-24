@@ -33,14 +33,17 @@ public class Conta implements Serializable {
 	private String descricao;
 
 	private BigDecimal saldo;
+	
+	private Boolean bancaria;
 
 	public Conta() {
 	}
 
-	public Conta(Long id, String descricao, BigDecimal saldo) {
+	public Conta(Long id, String descricao, BigDecimal saldo, Boolean bancaria) {
 		this.id = id;
 		this.descricao = descricao;
 		this.saldo = saldo;
+		this.bancaria = bancaria;
 	}
 
 }

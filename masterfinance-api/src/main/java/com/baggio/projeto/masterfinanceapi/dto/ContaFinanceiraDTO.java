@@ -2,6 +2,11 @@ package com.baggio.projeto.masterfinanceapi.dto;
 
 import com.baggio.projeto.masterfinanceapi.entities.ContaFinanceira;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class ContaFinanceiraDTO extends ContaDTO {
 
 	private static final long serialVersionUID = 1L;

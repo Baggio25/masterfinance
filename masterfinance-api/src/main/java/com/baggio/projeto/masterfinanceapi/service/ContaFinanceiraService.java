@@ -2,7 +2,6 @@ package com.baggio.projeto.masterfinanceapi.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -27,23 +26,16 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 	@Autowired
 	private ContaFinanceiraRepository contaFinanceiraRepository;
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ContaFinanceiraDTO> findAll() {
-		List<ContaFinanceira> list = contaFinanceiraRepository.findAll();
-		return list.stream().map(contaFinanceira -> new ContaFinanceiraDTO(contaFinanceira))
-				.collect(Collectors.toList());
-	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public Page<ContaFinanceiraDTO> findAllPaged(Pageable pageable) {
-		Page<ContaFinanceira> page = contaFinanceiraRepository.findAll(pageable);
+		Page<ContaFinanceira> page = contaFinanceiraRepository.findAllPaged(pageable);
 		return page.map(contaFinanceira -> new ContaFinanceiraDTO(contaFinanceira));
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ContaFinanceiraDTO> findByNome(Pageable pageable, String descricao) {
+	public Page<ContaFinanceiraDTO> findByDescricao(Pageable pageable, String descricao) {
 		Page<ContaFinanceira> page = contaFinanceiraRepository.findByDescricao(pageable, descricao);
 		return page.map(contaFinanceira -> new ContaFinanceiraDTO(contaFinanceira));
 	}
@@ -62,6 +54,7 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 		ContaFinanceira contaFinanceira = new ContaFinanceira();
 		dtoToEntity(dto, contaFinanceira);
 
+		contaFinanceira.setBancaria(false);
 		contaFinanceira = contaFinanceiraRepository.save(contaFinanceira);
 
 		return new ContaFinanceiraDTO(contaFinanceira);
@@ -73,11 +66,12 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 			ContaFinanceira contaFinanceira = contaFinanceiraRepository.getById(id);
 			dtoToEntity(dto, contaFinanceira);
 
+			contaFinanceira.setBancaria(false);
 			contaFinanceira = contaFinanceiraRepository.save(contaFinanceira);
 
 			return new ContaFinanceiraDTO(contaFinanceira);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		}
 
 	}
@@ -99,4 +93,10 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 		contaFinanceira.setSaldo(contaFinanceiraDTO.getSaldo());
 	}
 
+	@Override
+	public List<ContaFinanceiraDTO> findAll() {
+		return null;
+	}
+
+	
 }

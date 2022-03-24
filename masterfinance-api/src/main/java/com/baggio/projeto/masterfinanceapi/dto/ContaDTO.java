@@ -22,7 +22,7 @@ public class ContaDTO implements Serializable {
 
 	@NotNull(message = "Campo obrigatório")
 	private BigDecimal saldo;
-
+	
 	public ContaDTO() {
 	}
 

@@ -26,7 +26,10 @@ public class ContaBancariaDTO extends ContaDTO {
 
 	@NotNull(message = "Campo obrigatório")
 	private String digitoAgencia;
+	
+	private Boolean bancaria = false;
 
+	@NotNull(message = "Campo obrigatório")
 	private Long bancoId;
 
 	public ContaBancariaDTO() {

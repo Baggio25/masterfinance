@@ -1,0 +1,1 @@
+alter table tb_conta add column bancaria boolean not null default false;

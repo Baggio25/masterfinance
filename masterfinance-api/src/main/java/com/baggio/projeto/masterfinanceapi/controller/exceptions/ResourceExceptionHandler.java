@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,18 @@ public class ResourceExceptionHandler {
 	private static Integer STATUS_BAD_REQUEST = HttpStatus.BAD_REQUEST.value(); // 400 bad request
 	private static Integer STATUS_UNPROCESSABLE = HttpStatus.UNPROCESSABLE_ENTITY.value(); // 422 umprocessable entity
 
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityViolationException e, HttpServletRequest request) {
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now());
+		error.setStatus(STATUS_BAD_REQUEST);
+		error.setError("Database integrity exception");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+
+		return ResponseEntity.status(STATUS_BAD_REQUEST).body(error);
+	}
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 		StandardError error = new StandardError();
