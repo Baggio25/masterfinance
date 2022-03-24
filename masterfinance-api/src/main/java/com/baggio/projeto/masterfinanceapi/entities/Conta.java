@@ -21,7 +21,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_conta")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Conta implements Serializable {
+public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
