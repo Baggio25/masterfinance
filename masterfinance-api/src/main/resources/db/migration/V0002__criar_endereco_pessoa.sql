@@ -11,17 +11,24 @@ create table tb_pessoa (
 create table tb_endereco (
 	id serial not null,
 	rua varchar(80) not null,
-	cep varchar(10) not null,
-	numero varchar(10) not null,
+	cep varchar(10) not null,	
 	bairro varchar(80) not null,
-	complemento varchar(80) not null,
-	tipo_endereco varchar(80) not null,
 	cidade_id integer not null,
-	pessoa_id integer not null,
 	
 	constraint endereco_id primary key (id),
-	constraint endereco_cidade_fk foreign key (cidade_id) references tb_cidade(id),
-	constraint endereco_pessoa_fk foreign key (pessoa_id) references tb_pessoa(id)
+	constraint endereco_cidade_fk foreign key (cidade_id) references tb_cidade(id)
+);
+
+create table tb_pessoa_endereco (
+	pessoa_id integer not null,
+	endereco_id integer not null,
+	numero varchar(10) not null,
+	complemento varchar(80) not null,
+	tipo_endereco varchar(80) not null,
+	
+	constraint pessoa_endereco_id primary key (pessoa_id, endereco_id),
+	constraint pessoa_endereco_fk foreign key (pessoa_id) references tb_pessoa(id),
+	constraint endereco_pessoa_fk foreign key (endereco_id) references tb_endereco(id)
 );
 
 create table tb_pessoa_fisica (

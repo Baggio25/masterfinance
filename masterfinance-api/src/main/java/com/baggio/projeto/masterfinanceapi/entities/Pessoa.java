@@ -2,13 +2,17 @@ package com.baggio.projeto.masterfinanceapi.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
+import com.baggio.projeto.masterfinanceapi.entities.enums.TipoPessoa;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pessoa implements Serializable{
+public class Pessoa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,15 +41,20 @@ public abstract class Pessoa implements Serializable{
 	
 	private String celular;
 	
+	@Enumerated
+	@Column(name = "tipo_pessoa")
+	private TipoPessoa tipoPessoa; //Define qual será o tipo.. conforme selecionado indica se vai gravar na tabela fisica ou juridica
+	
 	public Pessoa() {
 	}
 
-	public Pessoa(Long id, String nome, String email, String telefone, String celular) {
+	public Pessoa(Long id, String nome, String email, String telefone, String celular, TipoPessoa tipoPessoa) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.celular = celular;
+		this.tipoPessoa = tipoPessoa;
 	}
 	
 }

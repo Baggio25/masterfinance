@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.entities.enums.TipoPessoa;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,8 +31,8 @@ public class PessoaFisica extends Pessoa{
 	}
 
 	public PessoaFisica(Long id, String nome, String email, String telefone, String celular, String cpf,
-			Instant dataNascimento) {
-		super(id, nome, email, telefone, celular);
+			Instant dataNascimento, TipoPessoa tipoPessoa) {
+		super(id, nome, email, telefone, celular, tipoPessoa);
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 	}
