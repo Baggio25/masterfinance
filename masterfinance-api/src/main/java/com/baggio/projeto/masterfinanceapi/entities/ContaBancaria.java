@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.dto.ContaBancariaDTO;
+import com.baggio.projeto.masterfinanceapi.service.util.Convertible;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tb_conta_bancaria")
-public class ContaBancaria extends Conta{
+public class ContaBancaria extends Conta implements Convertible<ContaBancariaDTO>{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -45,6 +48,9 @@ public class ContaBancaria extends Conta{
 		this.banco = banco;
 	}
 
-	
+	@Override
+	public ContaBancariaDTO convert() {
+		return new ContaBancariaDTO(this);
+	}
 
 }

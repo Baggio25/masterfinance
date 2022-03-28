@@ -1,55 +1,38 @@
 package com.baggio.projeto.masterfinanceapi.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baggio.projeto.masterfinanceapi.dto.ContaFinanceiraDTO;
 import com.baggio.projeto.masterfinanceapi.entities.ContaFinanceira;
 import com.baggio.projeto.masterfinanceapi.repository.ContaFinanceiraRepository;
-import com.baggio.projeto.masterfinanceapi.service.exceptions.DatabaseException;
 import com.baggio.projeto.masterfinanceapi.service.exceptions.ResourceNotFoundException;
 import com.baggio.projeto.masterfinanceapi.service.generic.GenericService;
 
 @Service
-public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO, Long> {
+public class ContaFinanceiraService implements GenericService<ContaFinanceira, ContaFinanceiraDTO, Long> {
 
 	@Autowired
 	private ContaFinanceiraRepository contaFinanceiraRepository;
-
-
-	@Transactional(readOnly = true)
+	
 	@Override
-	public Page<ContaFinanceiraDTO> findAllPaged(Pageable pageable) {
-		Page<ContaFinanceira> page = contaFinanceiraRepository.findAllPaged(pageable);
-		return page.map(contaFinanceira -> new ContaFinanceiraDTO(contaFinanceira));
+	public JpaRepository<ContaFinanceira, Long> getRepository() {
+		return contaFinanceiraRepository;
 	}
-
+	
 	@Transactional(readOnly = true)
 	public Page<ContaFinanceiraDTO> findByDescricao(Pageable pageable, String descricao) {
 		Page<ContaFinanceira> page = contaFinanceiraRepository.findByDescricao(pageable, descricao);
 		return page.map(contaFinanceira -> new ContaFinanceiraDTO(contaFinanceira));
 	}
 
-	@Transactional(readOnly = true)
-	@Override
-	public ContaFinanceiraDTO findById(Long id) {
-		Optional<ContaFinanceira> optional = contaFinanceiraRepository.findById(id);
-		ContaFinanceira contaFinanceira = optional.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ContaFinanceiraDTO(contaFinanceira);
-	}
-
 	@Transactional
-	@Override
 	public ContaFinanceiraDTO insert(ContaFinanceiraDTO dto) {
 		ContaFinanceira contaFinanceira = new ContaFinanceira();
 		dtoToEntity(dto, contaFinanceira);
@@ -60,7 +43,7 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 		return new ContaFinanceiraDTO(contaFinanceira);
 	}
 
-	@Override
+	@Transactional
 	public ContaFinanceiraDTO update(ContaFinanceiraDTO dto, Long id) {
 		try {
 			ContaFinanceira contaFinanceira = contaFinanceiraRepository.getById(id);
@@ -76,27 +59,9 @@ public class ContaFinanceiraService implements GenericService<ContaFinanceiraDTO
 
 	}
 
-	@Override
-	public void delete(Long id) {
-		try {
-			contaFinanceiraRepository.deleteById(id);
-		}  catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Id not found: " + id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Integrity violation");
-		}
-
-	}
-
 	private void dtoToEntity(ContaFinanceiraDTO contaFinanceiraDTO, ContaFinanceira contaFinanceira) {
 		contaFinanceira.setDescricao(contaFinanceiraDTO.getDescricao());
 		contaFinanceira.setSaldo(contaFinanceiraDTO.getSaldo());
 	}
 
-	@Override
-	public List<ContaFinanceiraDTO> findAll() {
-		return null;
-	}
-
-	
 }

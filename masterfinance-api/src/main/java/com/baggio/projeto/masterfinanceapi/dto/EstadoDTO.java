@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 
 import com.baggio.projeto.masterfinanceapi.entities.Estado;
+import com.baggio.projeto.masterfinanceapi.service.validation.estado.EstadoValid;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@EstadoValid
 @Getter
 @Setter
 public class EstadoDTO implements Serializable{

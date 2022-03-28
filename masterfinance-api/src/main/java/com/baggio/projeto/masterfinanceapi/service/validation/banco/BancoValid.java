@@ -1,4 +1,4 @@
-package com.baggio.projeto.masterfinanceapi.service.validation;
+package com.baggio.projeto.masterfinanceapi.service.validation.banco;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 
 import com.baggio.projeto.masterfinanceapi.entities.Banco;
-import com.baggio.projeto.masterfinanceapi.service.validation.BancoValid;
+import com.baggio.projeto.masterfinanceapi.service.validation.banco.BancoValid;
 
 import lombok.Getter;
 import lombok.Setter;
