@@ -4,10 +4,11 @@ import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.dto.PessoaFisicaDTO;
 import com.baggio.projeto.masterfinanceapi.entities.enums.TipoPessoa;
+import com.baggio.projeto.masterfinanceapi.service.util.Convertible;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tb_pessoa_fisica")
-@PrimaryKeyJoinColumn( name = "id")
-public class PessoaFisica extends Pessoa{
+public class PessoaFisica extends Pessoa implements Convertible<PessoaFisicaDTO>{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -35,6 +35,11 @@ public class PessoaFisica extends Pessoa{
 		super(id, nome, email, telefone, celular, tipoPessoa);
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
+	}
+
+	@Override
+	public PessoaFisicaDTO convert() {
+		return new PessoaFisicaDTO(this);
 	}
 	
 }

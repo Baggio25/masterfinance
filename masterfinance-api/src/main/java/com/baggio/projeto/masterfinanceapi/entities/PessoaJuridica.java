@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.dto.PessoaJuridicaDTO;
 import com.baggio.projeto.masterfinanceapi.entities.enums.TipoPessoa;
+import com.baggio.projeto.masterfinanceapi.service.util.Convertible;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_pessoa_juridica")
 @PrimaryKeyJoinColumn( name = "id")
-public class PessoaJuridica extends Pessoa{
+public class PessoaJuridica extends Pessoa implements Convertible<PessoaJuridicaDTO>{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -33,6 +35,11 @@ public class PessoaJuridica extends Pessoa{
 		super(id, nome, email, telefone, celular, tipoPessoa);
 		this.cnpj = cnpj;
 		this.razaoSocial = razaoSocial;
+	}
+
+	@Override
+	public PessoaJuridicaDTO convert() {
+		return new PessoaJuridicaDTO(this);
 	}
 
 }

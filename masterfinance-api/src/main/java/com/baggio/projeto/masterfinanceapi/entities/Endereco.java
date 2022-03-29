@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.dto.EnderecoDTO;
+import com.baggio.projeto.masterfinanceapi.service.util.Convertible;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "tb_endereco")
 @SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1, initialValue = 1)
-public class Endereco implements Serializable {
+public class Endereco implements Serializable, Convertible<EnderecoDTO> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,5 +44,10 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
+
+	@Override
+	public EnderecoDTO convert() {
+		return new EnderecoDTO(this);
+	}
 
 }
