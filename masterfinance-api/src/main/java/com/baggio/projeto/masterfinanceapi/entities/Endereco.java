@@ -41,10 +41,6 @@ public class Endereco implements Serializable, Convertible<EnderecoDTO> {
 	@JoinColumn(name = "cidade_id")
 	private Cidade cidade;
 
-	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
-
 	@Override
 	public EnderecoDTO convert() {
 		return new EnderecoDTO(this);

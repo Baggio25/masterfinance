@@ -39,7 +39,7 @@ public class PessoaFisicaService implements GenericService<PessoaFisica, PessoaF
 		dtoToEntity(dto, pessoaFisica);
 
 		pessoaFisica.setTipoPessoa(TipoPessoa.FISICA);
-		pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+		pessoaFisica = getRepository().save(pessoaFisica);
 
 		return new PessoaFisicaDTO(pessoaFisica);
 	}
@@ -51,7 +51,7 @@ public class PessoaFisicaService implements GenericService<PessoaFisica, PessoaF
 			dtoToEntity(dto, pessoaFisica);
 
 			pessoaFisica.setTipoPessoa(TipoPessoa.FISICA);
-			pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+			pessoaFisica = getRepository().save(pessoaFisica);
 
 			return new PessoaFisicaDTO(pessoaFisica);
 		} catch (EntityNotFoundException e) {

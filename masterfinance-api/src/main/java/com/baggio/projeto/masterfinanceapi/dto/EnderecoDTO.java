@@ -30,19 +30,15 @@ public class EnderecoDTO implements Serializable {
 	@NotNull(message = "Campo obrigatório")
 	private Long cidadeId;
 
-	@NotNull(message = "Campo obrigatório")
-	private Long pessoaId;
-
 	public EnderecoDTO() {
 	}
 
-	public EnderecoDTO(Long id, String rua, String cep, String bairro, Long cidadeId, Long pessoaId) {
+	public EnderecoDTO(Long id, String rua, String cep, String bairro, Long cidadeId) {
 		this.id = id;
 		this.rua = rua;
 		this.cep = cep;
 		this.bairro = bairro;
 		this.cidadeId = cidadeId;
-		this.pessoaId = pessoaId;
 	}
 
 	public EnderecoDTO(Endereco endereco) {
@@ -51,7 +47,6 @@ public class EnderecoDTO implements Serializable {
 		cep = endereco.getCep();
 		bairro = endereco.getBairro();
 		cidadeId = endereco.getCidade().getId();
-		pessoaId = endereco.getPessoa().getId();
 	}
 
 }

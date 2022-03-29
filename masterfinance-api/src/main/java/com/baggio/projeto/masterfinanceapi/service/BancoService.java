@@ -37,7 +37,7 @@ public class BancoService implements GenericService<Banco, BancoDTO, Long> {
 		Banco banco = new Banco();
 		dtoToEntity(dto, banco);
 
-		banco = bancoRepository.save(banco);
+		banco = getRepository().save(banco);
 
 		return new BancoDTO(banco);
 	}
@@ -48,7 +48,7 @@ public class BancoService implements GenericService<Banco, BancoDTO, Long> {
 			Banco banco = bancoRepository.getById(id);
 			dtoToEntity(dto, banco);
 
-			banco = bancoRepository.save(banco);
+			banco = getRepository().save(banco);
 
 			return new BancoDTO(banco);
 		} catch (EntityNotFoundException e) {

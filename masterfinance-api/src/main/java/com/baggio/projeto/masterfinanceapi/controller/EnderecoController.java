@@ -37,11 +37,11 @@ public class EnderecoController {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@GetMapping(value = "/pagedByPessoa/{idPessoa}")
+	/*@GetMapping(value = "/pagedByPessoa/{idPessoa}")
 	public ResponseEntity<Page<EnderecoDTO>> findByPessoa(Pageable pageable, @PathVariable Long idPessoa) {
 		Page<EnderecoDTO> listDTO = enderecoService.findByPessoa(pageable, idPessoa); 
 		return ResponseEntity.ok().body(listDTO);
-	}
+	}*/
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EnderecoDTO> findById(@PathVariable Long id) {

@@ -42,7 +42,7 @@ public class CidadeService implements GenericService<Cidade, CidadeDTO, Long> {
 		Cidade cidade = new Cidade();
 		dtoToEntity(dto, cidade);
 
-		cidade = cidadeRepository.save(cidade);
+		cidade = getRepository().save(cidade);
 
 		return new CidadeDTO(cidade);
 	}
@@ -53,7 +53,7 @@ public class CidadeService implements GenericService<Cidade, CidadeDTO, Long> {
 			Cidade cidade = cidadeRepository.getById(id);
 			dtoToEntity(dto, cidade);
 
-			cidade = cidadeRepository.save(cidade);
+			cidade = getRepository().save(cidade);
 
 			return new CidadeDTO(cidade);
 		} catch (EntityNotFoundException e) {

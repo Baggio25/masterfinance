@@ -12,10 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baggio.projeto.masterfinanceapi.dto.EnderecoDTO;
 import com.baggio.projeto.masterfinanceapi.entities.Cidade;
 import com.baggio.projeto.masterfinanceapi.entities.Endereco;
-import com.baggio.projeto.masterfinanceapi.entities.Pessoa;
 import com.baggio.projeto.masterfinanceapi.repository.CidadeRepository;
 import com.baggio.projeto.masterfinanceapi.repository.EnderecoRepository;
-import com.baggio.projeto.masterfinanceapi.repository.PessoaRepository;
 import com.baggio.projeto.masterfinanceapi.service.exceptions.ResourceNotFoundException;
 import com.baggio.projeto.masterfinanceapi.service.generic.GenericService;
 
@@ -24,27 +22,18 @@ public class EnderecoService implements GenericService<Endereco, EnderecoDTO, Lo
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
-	@Autowired 
-	private CidadeRepository cidadeRepository;
-	
+
 	@Autowired
-	private PessoaRepository pessoaRepository;
-	
+	private CidadeRepository cidadeRepository;
+
 	@Override
 	public JpaRepository<Endereco, Long> getRepository() {
 		return enderecoRepository;
 	}
-		
+
 	@Transactional(readOnly = true)
 	public Page<EnderecoDTO> findByCep(Pageable pageable, String cep) {
 		Page<Endereco> page = enderecoRepository.findByCep(pageable, cep);
-		return page.map(endereco -> new EnderecoDTO(endereco));
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<EnderecoDTO> findByPessoa(Pageable pageable, Long idPessoa) {
-		Page<Endereco> page = enderecoRepository.findByPessoa(pageable, idPessoa);
 		return page.map(endereco -> new EnderecoDTO(endereco));
 	}
 
@@ -53,7 +42,7 @@ public class EnderecoService implements GenericService<Endereco, EnderecoDTO, Lo
 		Endereco endereco = new Endereco();
 		dtoToEntity(dto, endereco);
 
-		endereco = enderecoRepository.save(endereco);
+		endereco = getRepository().save(endereco);
 
 		return new EnderecoDTO(endereco);
 	}
@@ -64,7 +53,7 @@ public class EnderecoService implements GenericService<Endereco, EnderecoDTO, Lo
 			Endereco endereco = enderecoRepository.getById(id);
 			dtoToEntity(dto, endereco);
 
-			endereco = enderecoRepository.save(endereco);
+			endereco = getRepository().save(endereco);
 
 			return new EnderecoDTO(endereco);
 		} catch (EntityNotFoundException e) {
@@ -74,14 +63,12 @@ public class EnderecoService implements GenericService<Endereco, EnderecoDTO, Lo
 
 	private void dtoToEntity(EnderecoDTO enderecoDTO, Endereco endereco) {
 		Cidade cidade = cidadeRepository.getById(enderecoDTO.getCidadeId());
-		Pessoa pessoa = pessoaRepository.getById(enderecoDTO.getPessoaId());
-		
+
 		endereco.setRua(enderecoDTO.getRua());
 		endereco.setCep(enderecoDTO.getCep());
 		endereco.setBairro(enderecoDTO.getBairro());
 		endereco.setCidade(cidade);
-		endereco.setPessoa(pessoa);
+
 	}
 
-	
 }

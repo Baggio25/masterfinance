@@ -37,7 +37,7 @@ public class EstadoService implements GenericService<Estado, EstadoDTO, Long> {
 		Estado estado = new Estado();
 		dtoToEntity(dto, estado);
 
-		estado = estadoRepository.save(estado);
+		estado = getRepository().save(estado);
 
 		return new EstadoDTO(estado);
 	}
@@ -48,7 +48,7 @@ public class EstadoService implements GenericService<Estado, EstadoDTO, Long> {
 			Estado estado = estadoRepository.getById(id);
 			dtoToEntity(dto, estado);
 
-			estado = estadoRepository.save(estado);
+			estado = getRepository().save(estado);
 
 			return new EstadoDTO(estado);
 		} catch (EntityNotFoundException e) {

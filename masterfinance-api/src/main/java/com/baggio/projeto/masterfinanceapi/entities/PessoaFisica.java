@@ -18,20 +18,20 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_pessoa_fisica")
 public class PessoaFisica extends Pessoa implements Convertible<PessoaFisicaDTO>{
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String cpf;
-	
+
 	@Column(name = "data_nascimento", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant dataNascimento;
-	
+
 	public PessoaFisica() {
 
 	}
 
-	public PessoaFisica(Long id, String nome, String email, String telefone, String celular, String cpf,
-			Instant dataNascimento, TipoPessoa tipoPessoa) {
+	public PessoaFisica(Long id, String nome, String email, String telefone, String celular, TipoPessoa tipoPessoa,
+			String cpf, Instant dataNascimento) {
 		super(id, nome, email, telefone, celular, tipoPessoa);
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
@@ -41,5 +41,5 @@ public class PessoaFisica extends Pessoa implements Convertible<PessoaFisicaDTO>
 	public PessoaFisicaDTO convert() {
 		return new PessoaFisicaDTO(this);
 	}
-	
+
 }

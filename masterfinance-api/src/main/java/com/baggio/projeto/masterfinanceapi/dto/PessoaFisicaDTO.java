@@ -4,7 +4,6 @@ import java.time.Instant;
 
 import javax.validation.constraints.NotBlank;
 
-import com.baggio.projeto.masterfinanceapi.entities.Pessoa;
 import com.baggio.projeto.masterfinanceapi.entities.PessoaFisica;
 import com.baggio.projeto.masterfinanceapi.entities.enums.TipoPessoa;
 
@@ -13,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PessoaFisicaDTO extends Pessoa{
+public class PessoaFisicaDTO extends PessoaDTO {
 
 	private static final long serialVersionUID = 1L;
 

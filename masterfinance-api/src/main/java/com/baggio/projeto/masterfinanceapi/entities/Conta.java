@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,7 +20,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_conta")
 @SequenceGenerator(name = "seq_conta", sequenceName = "seq_conta", allocationSize = 1, initialValue = 1)
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;

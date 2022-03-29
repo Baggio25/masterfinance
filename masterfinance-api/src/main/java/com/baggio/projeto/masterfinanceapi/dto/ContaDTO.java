@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.baggio.projeto.masterfinanceapi.entities.Conta;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +34,10 @@ public class ContaDTO implements Serializable {
 		this.saldo = saldo;
 	}
 
-	
-	
+	public ContaDTO( Conta conta) {
+		id = conta.getId();
+		descricao = conta.getDescricao();
+		saldo = conta.getSaldo();
+	}
+		
 }

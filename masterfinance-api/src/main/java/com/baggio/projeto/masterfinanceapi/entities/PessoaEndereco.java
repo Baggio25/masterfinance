@@ -9,8 +9,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import com.baggio.projeto.masterfinanceapi.dto.PessoaEnderecoDTO;
 import com.baggio.projeto.masterfinanceapi.entities.enums.TipoEndereco;
 import com.baggio.projeto.masterfinanceapi.entities.pk.PessoaEnderecoPK;
+import com.baggio.projeto.masterfinanceapi.service.util.Convertible;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,31 +21,36 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tb_pessoa_endereco")
-public class PessoaEndereco implements Serializable{
+public class PessoaEndereco implements Serializable, Convertible<PessoaEnderecoDTO> {
 
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private PessoaEnderecoPK id = new PessoaEnderecoPK();	
-	
+	private PessoaEnderecoPK id = new PessoaEnderecoPK();
+
 	private String numero;
-	
+
 	private String complemento;
-	
+
 	@Column(name = "tipo_endereco")
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 
 	public PessoaEndereco() {
 	}
-	
-	public PessoaEndereco(Pessoa pessoa, Endereco endereco, String numero, String complemento, TipoEndereco tipoEndereco) {
+
+	public PessoaEndereco(Pessoa pessoa, Endereco endereco, String numero, String complemento,
+			TipoEndereco tipoEndereco) {
 		id.setPessoa(pessoa);
 		id.setEndereco(endereco);
 		this.numero = numero;
 		this.complemento = complemento;
 		this.tipoEndereco = tipoEndereco;
 	}
-	
-	
+
+	@Override
+	public PessoaEnderecoDTO convert() {
+		return new PessoaEnderecoDTO(this);
+	}
+
 }

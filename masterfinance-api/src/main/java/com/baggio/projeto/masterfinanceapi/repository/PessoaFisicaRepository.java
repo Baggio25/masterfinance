@@ -13,10 +13,5 @@ public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, Long
 			+ "WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%', :nome, '%')) AND "
 			+ "p.tipoPessoa = 'FISICA'")
 	Page<PessoaFisica> findByNome(Pageable pageable, String nome);
-	
-	@Query("SELECT p FROM PessoaFisica p "
-			+ "WHERE p.nome = :nome AND "
-			+ "p.tipoPessoa = 'FISICA' ")
-	PessoaFisica findByNome(String nome);
-	
+		
 }
